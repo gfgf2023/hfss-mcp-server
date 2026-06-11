@@ -139,7 +139,17 @@ class HFSSManager:
             non_graphical=non_graphical,
             new_session=new_session,
         )
-        cls._instance.connect()
+        success = cls._instance.connect()
+        if not success:
+            instance = cls._instance
+            cls._instance = None
+            raise RuntimeError(
+                "无法连接到 HFSS/AEDT。请检查：\n"
+                "1. Ansys AEDT 是否已安装并正在运行\n"
+                "2. PyAEDT 是否已安装 (pip install pyaedt)\n"
+                "3. AEDT 版本号是否正确 (当前: {desktop_version})\n"
+                "4. 如果是 Linux，需要 AEDT 2022 R2+ 并使用 gRPC"
+            )
         return cls._instance
     
     @classmethod
