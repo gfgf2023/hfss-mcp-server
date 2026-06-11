@@ -464,7 +464,10 @@ def register_pcb_tools(mcp):
             output_path: 输出 AEDT 文件路径（留空则自动生成）
         """
         try:
-            from pyaedt import Hfss3dLayout
+            try:
+                from ansys.aedt.core import Hfss3dLayout
+            except ImportError:
+                from pyaedt import Hfss3dLayout
             
             if output_path is None:
                 output_path = brd_path.replace('.brd', '_hfss.aedt')
@@ -492,7 +495,10 @@ def register_pcb_tools(mcp):
             output_path: 输出 AEDT 文件路径（留空则自动生成）
         """
         try:
-            from pyaedt import Hfss3dLayout
+            try:
+                from ansys.aedt.core import Hfss3dLayout
+            except ImportError:
+                from pyaedt import Hfss3dLayout
             
             if output_path is None:
                 output_path = odb_path.replace('.tgz', '_hfss.aedt').replace('.zip', '_hfss.aedt')

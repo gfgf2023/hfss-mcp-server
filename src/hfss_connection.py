@@ -29,7 +29,11 @@ class HFSSConnection:
     def connect(self):
         """建立与 HFSS 的连接"""
         try:
-            from pyaedt import Hfss
+            # 兼容 PyAEDT 0.x 和 1.x
+            try:
+                from ansys.aedt.core import Hfss
+            except ImportError:
+                from pyaedt import Hfss
             
             if self.project_path:
                 self._hfss = Hfss(
