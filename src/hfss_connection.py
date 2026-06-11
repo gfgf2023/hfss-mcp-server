@@ -25,9 +25,11 @@ class HFSSConnection:
         self.new_session = new_session
         self._hfss = None
         self._desktop = None
+        self._last_error = None
         
     def connect(self):
         """建立与 HFSS 的连接"""
+        self._last_error = None
         try:
             # 兼容 PyAEDT 0.x 和 1.x
             try:
@@ -58,6 +60,7 @@ class HFSSConnection:
             return True
             
         except Exception as e:
+            self._last_error = str(e)
             logger.error(f"Failed to connect to HFSS: {e}")
             return False
     
@@ -141,14 +144,17 @@ class HFSSManager:
         )
         success = cls._instance.connect()
         if not success:
+            last_error = getattr(cls._instance, '_last_error', '未知错误')
             instance = cls._instance
             cls._instance = None
             raise RuntimeError(
-                "无法连接到 HFSS/AEDT。请检查：\n"
-                "1. Ansys AEDT 是否已安装并正在运行\n"
-                "2. PyAEDT 是否已安装 (pip install pyaedt)\n"
-                "3. AEDT 版本号是否正确 (当前: {desktop_version})\n"
-                "4. 如果是 Linux，需要 AEDT 2022 R2+ 并使用 gRPC"
+                f"无法连接到 HFSS/AEDT。\n"
+                f"PyAEDT 报错: {last_error}\n\n"
+                f"请检查:\n"
+                f"1. Ansys AEDT 是否已安装并正在运行\n"
+                f"2. PyAEDT 版本: pip show pyaedt\n"
+                f"3. AEDT 版本号是否正确 (当前: {desktop_version})\n"
+                f"4. Windows 上 AEDT 需要先打开，或设置 new_desktop_session=true"
             )
         return cls._instance
     
