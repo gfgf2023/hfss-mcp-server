@@ -14,7 +14,7 @@ def register_project_tools(mcp):
         project_path: Optional[str] = None,
         design_name: str = "HFSSDesign1",
         solution_type: str = "DrivenModal",
-        desktop_version: str = "2022.2",
+        desktop_version: str = "2023.1",
         non_graphical: bool = False,
         new_session: bool = False,
     ) -> str:

@@ -3,7 +3,7 @@
 # HFSS 连接配置
 hfss:
   # AEDT 版本
-  version: "2022.2"
+  version: "2023.1"
   
   # 默认求解类型
   solution_type: "DrivenModal"  # DrivenModal / DrivenTerminal / Numeric
