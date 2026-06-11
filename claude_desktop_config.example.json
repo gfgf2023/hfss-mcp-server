@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "hfss": {
+      "command": "python",
+      "args": ["-m", "src.server"],
+      "cwd": "/root/hfss-mcp-server",
+      "env": {
+        "PYTHONPATH": "/root/hfss-mcp-server"
+      }
+    }
+  }
+}

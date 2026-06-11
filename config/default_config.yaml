@@ -1,0 +1,135 @@
+# HFSS MCP Server 配置
+
+# HFSS 连接配置
+hfss:
+  # AEDT 版本
+  version: "2022.2"
+  
+  # 默认求解类型
+  solution_type: "DrivenModal"  # DrivenModal / DrivenTerminal / Numeric
+  
+  # 无界面模式（服务器端推荐开启）
+  non_graphical: false
+  
+  # 是否启动新的 AEDT 会话
+  new_session: false
+  
+  # 默认项目路径（留空则创建新项目）
+  default_project: ""
+
+# 服务器配置
+server:
+  # 传输方式 (stdio/http/sse)
+  transport: "stdio"
+  
+  # HTTP/SSE 配置
+  host: "127.0.0.1"
+  port: 8765
+  
+  # 服务器名称
+  name: "HFSS-MCP-Server"
+
+# 默认材料库
+materials:
+  # 常用金属
+  metals:
+    - copper
+    - aluminum
+    - gold
+    - silver
+    - brass
+  
+  # 常用介质
+  dielectrics:
+    - FR4_epoxy
+    - Rogers4003
+    - Rogers4350
+    - Rogers5880
+    - Duroid5870
+    - Teflon
+    - Alumina
+
+# 天线设计默认参数
+antenna:
+  # 默认频率 (GHz)
+  default_frequency: 2.4
+  
+  # 默认基板
+  default_substrate: "FR4_epoxy"
+  
+  # 默认基板厚度 (mm)
+  default_substrate_height: 1.6
+  
+  # 默认端口阻抗 (Ohm)
+  default_impedance: 50.0
+
+# PCB 仿真默认参数
+pcb:
+  # 默认叠层
+  default_stackup:
+    - name: "TOP"
+      type: "signal"
+      thickness_mm: 0.035
+      material: "copper"
+    - name: "PREPREG"
+      type: "dielectric"
+      thickness_mm: 0.2
+      material: "FR4_epoxy"
+    - name: "GND"
+      type: "ground"
+      thickness_mm: 0.035
+      material: "copper"
+    - name: "CORE"
+      type: "dielectric"
+      thickness_mm: 1.0
+      material: "FR4_epoxy"
+    - name: "PWR"
+      type: "power"
+      thickness_mm: 0.035
+      material: "copper"
+    - name: "PREPREG2"
+      type: "dielectric"
+      thickness_mm: 0.2
+      material: "FR4_epoxy"
+    - name: "BOTTOM"
+      type: "signal"
+      thickness_mm: 0.035
+      material: "copper"
+  
+  # 默认走线宽度 (mm)
+  default_trace_width: 0.2
+  
+  # 默认过孔参数 (mm)
+  default_via:
+    drill_diameter: 0.3
+    pad_diameter: 0.6
+    antipad_diameter: 0.8
+
+# 求解设置默认参数
+setup:
+  # 默认求解频率 (GHz)
+  default_frequency: 2.4
+  
+  # 最大迭代次数
+  max_passes: 20
+  
+  # S 参数收敛阈值
+  max_delta_s: 0.02
+  
+  # 默认扫频范围 (GHz)
+  sweep:
+    start: 1.0
+    stop: 4.0
+    type: "Interpolating"  # Fast / Interpolating / Discrete
+    points: 1000
+
+# 输出配置
+output:
+  # 默认导出格式
+  touchstone_format: "s2p"
+  
+  # 报告输出目录
+  report_dir: "./reports"
+  
+  # 场图输出目录
+  field_plot_dir: "./field_plots"
