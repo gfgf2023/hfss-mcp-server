@@ -65,7 +65,10 @@ class HFSSConnection:
     def hfss(self):
         """获取 HFSS 实例"""
         if self._hfss is None:
-            raise RuntimeError("Not connected to HFSS. Call connect() first.")
+            raise RuntimeError(
+                "未连接到 HFSS。请先调用 connect_hfss() 建立连接。\n"
+                "如果使用 MCP 客户端，请先调用 connect_hfss 工具。"
+            )
         return self._hfss
     
     @property
@@ -100,12 +103,18 @@ class HFSSManager:
     """HFSS 连接管理器 - 单例模式"""
     
     _instance: Optional[HFSSConnection] = None
+    _transport_mode: str = "stdio"  # 记录传输模式，用于安全检查
     
     @classmethod
     def get_connection(cls) -> HFSSConnection:
         """获取当前连接"""
         if cls._instance is None:
             cls._instance = HFSSConnection()
+        if not cls._instance.is_connected:
+            raise RuntimeError(
+                "HFSS 连接尚未建立。请先调用 connect_hfss() 工具连接到 HFSS/AEDT。\n"
+                "示例: connect_hfss(design_name=\"MyDesign\", solution_type=\"DrivenModal\")"
+            )
         return cls._instance
     
     @classmethod
@@ -139,3 +148,13 @@ class HFSSManager:
         if cls._instance:
             cls._instance.disconnect()
             cls._instance = None
+    
+    @classmethod
+    def set_transport_mode(cls, mode: str):
+        """设置传输模式（由 server.py 在启动时调用）"""
+        cls._transport_mode = mode
+    
+    @classmethod
+    def get_transport_mode(cls) -> str:
+        """获取当前传输模式"""
+        return cls._transport_mode

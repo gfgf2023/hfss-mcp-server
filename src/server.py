@@ -22,6 +22,7 @@ from .tools import (
     register_script_tools,
 )
 from .resources import register_resources
+from .hfss_connection import HFSSManager
 
 # 配置日志
 logging.basicConfig(
@@ -144,6 +145,9 @@ def main(
     """
     logger.info(f"Starting HFSS MCP Server...")
     logger.info(f"Transport: {transport}")
+    
+    # 记录传输模式，用于脚本执行安全检查
+    HFSSManager.set_transport_mode(transport)
     
     if transport in ("http", "sse"):
         logger.info(f"Host: {host}")

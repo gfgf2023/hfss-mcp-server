@@ -67,7 +67,7 @@
 
 ```bash
 # 克隆仓库
-git clone https://github.com/YOUR_USERNAME/hfss-mcp-server.git
+git clone https://github.com/gfgf2023/hfss-mcp-server.git
 cd hfss-mcp-server
 
 # 创建虚拟环境
@@ -629,7 +629,7 @@ create_custom_material(
 
 ```bash
 # 克隆仓库
-git clone https://github.com/YOUR_USERNAME/hfss-mcp-server.git
+git clone https://github.com/gfgf2023/hfss-mcp-server.git
 cd hfss-mcp-server
 
 # 安装开发依赖
@@ -664,7 +664,7 @@ mypy src/
 
 ## 📧 联系方式
 
-- 问题反馈：[GitHub Issues](https://github.com/YOUR_USERNAME/hfss-mcp-server/issues)
+- 问题反馈：[GitHub Issues](https://github.com/gfgf2023/hfss-mcp-server/issues)
 - 邮箱：your.email@example.com
 
 ---

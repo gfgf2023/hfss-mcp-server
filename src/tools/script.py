@@ -63,6 +63,13 @@ def register_script_tools(mcp):
             conn = HFSSManager.get_connection()
             hfss = conn.hfss
             
+            # 安全检查：远程模式下执行任意脚本有风险
+            if HFSSManager.get_transport_mode() in ("http", "sse"):
+                logger.warning(
+                    "⚠️ 远程模式下执行 PyAEDT 脚本存在安全风险！"
+                    "仅允许可信客户端调用此工具。"
+                )
+            
             # 准备执行环境
             exec_globals = {
                 'hfss': hfss,
