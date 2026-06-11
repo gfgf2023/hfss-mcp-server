@@ -37,24 +37,42 @@ class HFSSConnection:
             except ImportError:
                 from pyaedt import Hfss
             
+            # PyAEDT 1.0 参数: project, design, version, new_desktop
+            # PyAEDT 0.x 参数: projectname, designname, specified_version, new_desktop_session
+            import inspect
+            sig = inspect.signature(Hfss.__init__)
+            params = set(sig.parameters.keys())
+            
             if self.project_path:
-                self._hfss = Hfss(
-                    projectname=self.project_path,
-                    designname=self.design_name,
+                kwargs = dict(
                     solution_type=self.solution_type,
-                    specified_version=self.desktop_version,
                     non_graphical=self.non_graphical,
-                    new_desktop_session=self.new_session,
                 )
+                if 'project' in params:
+                    kwargs['project'] = self.project_path
+                    kwargs['design'] = self.design_name
+                    kwargs['version'] = self.desktop_version
+                    kwargs['new_desktop'] = self.new_session
+                else:
+                    kwargs['projectname'] = self.project_path
+                    kwargs['designname'] = self.design_name
+                    kwargs['specified_version'] = self.desktop_version
+                    kwargs['new_desktop_session'] = self.new_session
+                self._hfss = Hfss(**kwargs)
             else:
-                # 创建新项目
-                self._hfss = Hfss(
-                    designname=self.design_name,
+                kwargs = dict(
                     solution_type=self.solution_type,
-                    specified_version=self.desktop_version,
                     non_graphical=self.non_graphical,
-                    new_desktop_session=self.new_session,
                 )
+                if 'project' in params:
+                    kwargs['design'] = self.design_name
+                    kwargs['version'] = self.desktop_version
+                    kwargs['new_desktop'] = self.new_session
+                else:
+                    kwargs['designname'] = self.design_name
+                    kwargs['specified_version'] = self.desktop_version
+                    kwargs['new_desktop_session'] = self.new_session
+                self._hfss = Hfss(**kwargs)
             
             logger.info(f"Connected to HFSS: {self._hfss.project_name}")
             return True
